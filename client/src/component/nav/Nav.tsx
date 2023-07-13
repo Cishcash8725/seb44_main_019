@@ -20,6 +20,7 @@ import { faArrowRightToBracket } from '@fortawesome/free-solid-svg-icons';
 import { faPeopleCarryBox } from '@fortawesome/free-solid-svg-icons';
 
 import { Link } from 'react-router-dom';
+import Avatar from '../../common/avatar/Avatar';
 
 const Nav: React.FC = () => {
   const [isNavItemContent, setIsNavItemContent] = useState(false);
@@ -96,10 +97,7 @@ const Nav: React.FC = () => {
           </Link>
           <Link to="/member/1" style={{ textDecoration: 'none' }}>
             <NavItem>
-              <img
-                src="https://www.acnmoda.com.br/img/user-default.png"
-                alt="userImg"
-              />
+              <Avatar avatartype={'Userimg'} />
               My page
             </NavItem>
           </Link>
