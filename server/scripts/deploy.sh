@@ -23,6 +23,7 @@ else
   sleep 5
 fi
 
+export AWS_REGION=ap-northeast-2
 
 DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
 echo "> DEPLOY_JAR 배포"    >> /home/ubuntu/action/deploy.log
