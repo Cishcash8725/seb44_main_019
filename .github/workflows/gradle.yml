@@ -51,8 +51,4 @@ jobs:
       run: aws s3 cp --region ap-northeast-2 ./shellweserver-deploy.zip s3://$S3_BUCKET_NAME/shellweserver-deploy.zip
       
     - name: Code Deploy
-      run: >
-        aws deploy create-deployment --application-name shellweserver
-        --deployment-config-name CodeDeployDefault.AllAtOnce
-        --deployment-group-name shellweserver-group
-        --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=practice-deploy.zip
+      run: aws deploy create-deployment --application-name shellweserver --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name shellweserver-group --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=shellweserver-deploy.zip
