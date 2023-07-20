@@ -31,6 +31,7 @@ jobs:
         distribution: 'temurin'
     - name : Add permission
       run: chmod +x gradlew
+      working-directory: ./server
     - name: Build with Gradle
       run: ./gradlew build
       working-directory: ./server
