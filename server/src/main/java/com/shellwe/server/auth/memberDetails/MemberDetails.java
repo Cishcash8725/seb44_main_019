@@ -14,7 +14,9 @@ public class MemberDetails extends Member implements UserDetails {
                 member.getEmail(),
                 member.getEmailVerificationStatus(),
                 member.getPassword(),
-                member.getDisplayName());
+                member.getDisplayName(),
+                member.getProfileUrl()
+        );
     }
 
     @Override

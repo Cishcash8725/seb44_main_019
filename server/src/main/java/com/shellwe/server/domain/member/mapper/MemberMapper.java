@@ -44,6 +44,9 @@ public interface MemberMapper {
 
     @Named("mapTagsToDto")
     default List<TagResponseDto> mapTagsToDto(List<Tag> tags) {
+        if (tags == null || tags.isEmpty()) {
+            return null;
+        }
         return tags.stream()
                 .map(tag -> {
                     TagResponseDto dto = new TagResponseDto();

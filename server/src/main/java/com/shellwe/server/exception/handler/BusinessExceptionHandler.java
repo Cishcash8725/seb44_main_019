@@ -53,4 +53,11 @@ public class BusinessExceptionHandler {
         log.error("access token exception", accessTokenException);
         return BusinessLogicErrorResponse.of(accessTokenException);
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler
+    public BusinessLogicErrorResponse handleCartLogicException(CartLogicException cartLogicException) {
+        log.error("cart logic exception", cartLogicException);
+        return BusinessLogicErrorResponse.of(cartLogicException);
+    }
 }

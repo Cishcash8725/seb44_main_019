@@ -14,5 +14,6 @@ public @interface EachSize {
     String message() default "each tag under 10 length";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
+    int min() default 0;
     int max() default Integer.MAX_VALUE;
 }

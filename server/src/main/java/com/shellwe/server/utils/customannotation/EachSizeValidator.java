@@ -7,10 +7,12 @@ import java.util.List;
 public class EachSizeValidator implements ConstraintValidator<EachSize, List<String>> {
 
     private int max;
+    private int min;
 
     @Override
     public void initialize(EachSize constraintAnnotation) {
         max = constraintAnnotation.max();
+        min = constraintAnnotation.min();
     }
 
     @Override
@@ -19,7 +21,7 @@ public class EachSizeValidator implements ConstraintValidator<EachSize, List<Str
             return true;
         }
         for (String value : values) {
-            if (value == null || value.length() > max) {
+            if (value == null || value.length() < min || value.length() > max) {
                 return false;
             }
         }

@@ -111,12 +111,16 @@ public class MemberService {
 
         if (memberId == contextId) {
             Member findMember = findById(memberId);
-            if (!picture.isEmpty()) {
-                profileUrl = uploadPictureService.onePictureFileToUrl(picture);
+            if (findMember.getPassword() != null) {
+                if (picture != null && !picture.isEmpty()) {
+                    profileUrl = uploadPictureService.onePictureFileToUrl(picture);
+                }
+                findMember.updateMember(updateRequestDto.getPassword(), passwordEncoder,
+                        updateRequestDto.getDisplayName(), updateRequestDto.getIntroduction(), profileUrl);
+                memberRepository.save(findMember);
+            } else {
+                throw new MemberLogicException((MemberExceptionCode.FAILED_UPDATE_MEMBER_OAUTH_USER));
             }
-            findMember.updateMember(updateRequestDto.getPassword(), passwordEncoder,
-                    updateRequestDto.getDisplayName(), updateRequestDto.getIntroduction(), profileUrl);
-            memberRepository.save(findMember);
         } else {
             throw new MemberLogicException(MemberExceptionCode.MEMBER_NOT_MY_ID);
         }

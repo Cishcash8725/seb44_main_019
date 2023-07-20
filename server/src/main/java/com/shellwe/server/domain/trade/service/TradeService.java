@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -55,7 +56,13 @@ public class TradeService {
         if (buyerShell.getMember().getId() != buyer.getId() || sellerShell.getMember().getId() != seller.getId()) {
             throw new TradeLogicException(TradeExceptionCode.TRADE_FAILED);
         } else {
-            tradeRepository.save(new Trade(seller, buyer, buyerShell, sellerShell));
+            Optional<Trade> existTrade = tradeRepository.findBySellerAndBuyerAndBuyerShellAndSellerShell(seller, buyer, buyerShell, sellerShell);
+
+            if (existTrade.isEmpty()) {
+                tradeRepository.save(new Trade(seller, buyer, buyerShell, sellerShell));
+            } else {
+                throw new TradeLogicException(TradeExceptionCode.TRADE_ALREADY_EXISTS);
+            }
         }
     }
 

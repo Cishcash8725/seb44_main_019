@@ -42,7 +42,7 @@ public class ShellController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{shellId}")
     public FindDetailsResponseDto findShellDetails(@PathVariable long shellId, Authentication authentication) {
-        return shellService.findDetails(shellId, getId(authentication));
+        return shellService.findDetails(shellId, getIdAllowNull(authentication));
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -82,6 +82,17 @@ public class ShellController {
         Long id;
         if (authentication == null) {
             throw new AccessTokenException(AccessTokenExceptionCode.TOKEN_EXPIRED);
+        } else {
+            MemberContextInform memberInform = (MemberContextInform) authentication.getPrincipal();
+            id = memberInform.getId();
+        }
+        return id;
+    }
+
+    private Long getIdAllowNull(Authentication authentication) {
+        Long id;
+        if (authentication == null) {
+            id = null;
         } else {
             MemberContextInform memberInform = (MemberContextInform) authentication.getPrincipal();
             id = memberInform.getId();

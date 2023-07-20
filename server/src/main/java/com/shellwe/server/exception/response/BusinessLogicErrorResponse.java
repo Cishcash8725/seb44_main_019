@@ -36,6 +36,10 @@ public class BusinessLogicErrorResponse {
         return new BusinessLogicErrorResponse(Error.of(accessTokenException));
     }
 
+    public static BusinessLogicErrorResponse of(CartLogicException cartLogicException) {
+        return new BusinessLogicErrorResponse(Error.of(cartLogicException));
+    }
+
     @Getter
     public static class Error {
 
@@ -69,6 +73,10 @@ public class BusinessLogicErrorResponse {
 
         public static Error of(AccessTokenException accessTokenException) {
             return new Error(accessTokenException.getMessage(), accessTokenException.getAccessTokenExceptionCode().getStatus());
+        }
+
+        public static Error of(CartLogicException cartLogicException) {
+            return new Error(cartLogicException.getMessage(), cartLogicException.getCartExceptionCode().getStatus());
         }
     }
 }

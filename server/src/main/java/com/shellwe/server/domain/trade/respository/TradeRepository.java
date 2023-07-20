@@ -1,11 +1,14 @@
 package com.shellwe.server.domain.trade.respository;
 
+import com.shellwe.server.domain.member.entity.Member;
+import com.shellwe.server.domain.shell.entity.Shell;
 import com.shellwe.server.domain.trade.entity.Trade;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TradeRepository extends JpaRepository<Trade, Long> {
 
@@ -25,4 +28,6 @@ public interface TradeRepository extends JpaRepository<Trade, Long> {
     void deleteAllByBuyerShellId(Long buyerShellId);
 
     void deleteAllBySellerShellId(Long sellerShellId);
+
+    Optional<Trade> findBySellerAndBuyerAndBuyerShellAndSellerShell(Member seller, Member buyer, Shell buyerShell, Shell sellerShell);
 }

@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class Member extends TimeTracker {
 
     private String introduction;
 
-    private String profileUrl;
+    private String profileUrl = "empty";
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Shell> shells = new ArrayList<>();
@@ -51,12 +52,13 @@ public class Member extends TimeTracker {
         this.password = password;
     }
 
-    public Member(Long id, String email, Boolean emailVerificationStatus, String password, String displayName) {
+    public Member(Long id, String email, Boolean emailVerificationStatus, String password, String displayName, String profileUrl) {
         this.id = id;
         this.email = email;
         this.emailVerificationStatus = emailVerificationStatus;
         this.password = password;
         this.displayName = displayName;
+        this.profileUrl = profileUrl;
     }
 
     public void emailVerificationCompleted() {
@@ -66,16 +68,16 @@ public class Member extends TimeTracker {
     public void updateMember(String password, PasswordEncoder passwordEncoder,
                              String displayName, String introduction,
                              String profileUrl) {
-        if (password != null) {
+        if (StringUtils.hasText(password)) {
             this.password = passwordEncoder.encode(password);
         }
-        if (displayName != null) {
+        if (StringUtils.hasText(displayName)) {
             this.displayName = displayName;
         }
-        if (introduction != null) {
+        if (StringUtils.hasText(introduction)) {
             this.introduction = introduction;
         }
-        if (profileUrl != null) {
+        if (StringUtils.hasText(profileUrl) && !profileUrl.equals("empty")) {
             this.profileUrl = profileUrl;
         }
     }

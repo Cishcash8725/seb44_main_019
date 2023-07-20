@@ -68,12 +68,12 @@ public class ShellService {
     }
 
     @Transactional(readOnly = true)
-    public FindDetailsResponseDto findDetails(Long shellId, long memberId) {
+    public FindDetailsResponseDto findDetails(Long shellId, Long memberId) {
         Shell shell = findById(shellId);
         FindDetailsResponseDto findDetailsResponseDto = shellMapper.shellToFindDetailsResponseDto(shell);
         findDetailsResponseDto.getMember().setMe(false);
 
-        if (shell.getMember().getId().equals(memberId)) {
+        if (memberId != null && memberId.equals(shell.getMember().getId())) {
             findDetailsResponseDto.getMember().setMe(true);
         }
         return findDetailsResponseDto;
@@ -88,6 +88,7 @@ public class ShellService {
             Shell requestShell = shellMapper.updateRequestDtoToShell(updateRequestDto);
             Category category = categoryService.findOrCreate(updateRequestDto.getCategory());
             requestShell.setCategory(category);
+            shell.deleteAllTags();
             shell.updateShellInformExceptPictureUrl(requestShell);
             List<String> shellPicturesUrl = uploadPictureService.severalPictureFilesToUrls(pictures);
             shell.deleteAllPictureUrls();

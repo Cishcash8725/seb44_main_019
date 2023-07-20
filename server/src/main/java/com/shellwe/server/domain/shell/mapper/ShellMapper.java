@@ -142,6 +142,9 @@ public interface ShellMapper {
 
     @Named("mapTagsToDto")
     default List<TagResponseDto> mapTagsToDto(List<Tag> tags) {
+        if (tags == null || tags.isEmpty()) {
+            return null;
+        }
         return tags.stream()
                 .map(tag -> {
                     TagResponseDto dto = new TagResponseDto();
@@ -158,7 +161,11 @@ public interface ShellMapper {
 
     @Named("mapTagsToStringDto")
     default List<Tag> mapTagsToStringDto(List<String> tagNames) {
+        if (tagNames == null || tagNames.isEmpty()) {
+            return null;
+        }
         return tagNames.stream()
+                .filter(tagName -> tagName != null && !tagName.trim().isEmpty())
                 .map(tagName -> {
                     Tag tag = new Tag();
                     tag.setTagName(tagName);

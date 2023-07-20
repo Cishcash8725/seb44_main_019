@@ -28,6 +28,7 @@ public class LoginAuthenticationSuccessHandler implements AuthenticationSuccessH
         userInfo.put("id", member.getId());
         userInfo.put("displayName", member.getDisplayName());
         userInfo.put("isMe", true);
+        userInfo.put("profileUrl", member.getProfileUrl());
 
         ObjectMapper objectMapper = new ObjectMapper();
         String userJson = objectMapper.writeValueAsString(userInfo);

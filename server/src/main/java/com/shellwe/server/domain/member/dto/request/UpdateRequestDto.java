@@ -11,13 +11,14 @@ import javax.validation.constraints.Size;
 @Setter
 public class UpdateRequestDto {
 
-    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%&*])[a-zA-Z\\d!@#$%&*]{8,}$",
+    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%&*])[a-zA-Z\\d!@#$%&*]{10,}$",
             message = "Must contain at least 8 characters, including lowercase letters, numbers, and special symbols.")
     private String password;
 
-    @Size(min = 1, max = 8, message = "The displayname size must be greater than 0 and less than 8.")
+    @Size(max = 8, message = "The displayname size must be greater than 0 and less than 8.")
     private String displayName;
 
+    @Size(max = 150, message = "The introduction size must be  less than 150.")
     private String introduction;
 
     private MultipartFile pictureFile;

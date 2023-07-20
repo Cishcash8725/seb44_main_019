@@ -96,6 +96,10 @@ public class Shell extends TimeTracker {
         this.pictureUrls.clear();
     }
 
+    public void deleteAllTags() {
+        this.tags.clear();
+    }
+
     public void updateShellInformExceptPictureUrl(Shell requestShell) {
         if (requestShell.getTitle() != null) {
             this.title = requestShell.getTitle();

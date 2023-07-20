@@ -4,9 +4,12 @@ import com.shellwe.server.domain.cart.entity.Cart;
 import com.shellwe.server.domain.cart.mapper.CartMapper;
 import com.shellwe.server.domain.cart.repository.CartRepository;
 import com.shellwe.server.domain.member.dto.response.GetMyShellListDto;
+import com.shellwe.server.domain.member.entity.Member;
 import com.shellwe.server.domain.member.service.MemberService;
 import com.shellwe.server.domain.shell.entity.Shell;
 import com.shellwe.server.domain.shell.service.ShellService;
+import com.shellwe.server.exception.customexception.CartLogicException;
+import com.shellwe.server.exception.exceptioncode.CartExceptionCode;
 import com.shellwe.server.utils.event.MemberRemoveEvent;
 import com.shellwe.server.utils.event.ShellRemoveEvent;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Transactional
@@ -35,9 +39,16 @@ public class CartService {
     }
 
     public void saveShellInMyCart(long shellId, long memberId) {
-        cartRepository.save(
-                new Cart(memberService.getMemberByOtherLayer(memberId), shellService.getShellByOtherLayer(shellId))
-        );
+        Member member = memberService.getMemberByOtherLayer(memberId);
+        Shell shell = shellService.getShellByOtherLayer(shellId);
+
+        Optional<Cart> existCart = cartRepository.findByOwnerAndShell(member, shell);
+
+        if (existCart.isEmpty()) {
+            cartRepository.save(new Cart(member, shell));
+        } else {
+            throw new CartLogicException(CartExceptionCode.CART_ALREADY_EXISTS);
+        }
     }
 
     public void deleteShellInMyCart(long shellId, long memberId) {

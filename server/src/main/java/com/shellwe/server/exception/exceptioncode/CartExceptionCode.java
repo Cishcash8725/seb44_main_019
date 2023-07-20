@@ -3,15 +3,15 @@ package com.shellwe.server.exception.exceptioncode;
 import lombok.Getter;
 
 @Getter
-public enum AccessTokenExceptionCode {
+public enum CartExceptionCode {
 
-    TOKEN_EXPIRED(400, "Token Expired, Check Your Token");
+    CART_ALREADY_EXISTS(400, "Cart Duplicated");
 
     private int status;
 
     private String message;
 
-    AccessTokenExceptionCode(int status, String message) {
+    CartExceptionCode(int status, String message) {
         this.status = status;
         this.message = message;
     }

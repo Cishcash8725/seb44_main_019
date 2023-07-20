@@ -58,7 +58,7 @@ public class MemberController {
     @PatchMapping("/{memberId}")
     public void updateMemberById(@PathVariable long memberId,
                                  @Valid @RequestPart(value = "update") UpdateRequestDto updateRequestDto,
-                                 @RequestPart(value = "picture") MultipartFile picture,
+                                 @RequestPart(value = "picture", required = false) MultipartFile picture,
                                  Authentication authentication) {
         memberService.updateMember(getId(authentication), memberId, updateRequestDto, picture);
     }
