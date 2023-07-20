@@ -37,7 +37,7 @@ jobs:
       working-directory: ./server
 
     - name: Make zip file
-      run: zip -r ./practice-deploy.zip .
+      run: zip -r ./shellweserver-deploy.zip .
       shell: bash
       
     - name: Configure AWS credentials
