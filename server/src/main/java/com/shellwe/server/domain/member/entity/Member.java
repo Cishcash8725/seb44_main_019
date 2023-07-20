@@ -102,4 +102,9 @@ public class Member extends TimeTracker {
     public boolean isPasswordNull() {
         return this.password == null;
     }
+
+    public void updateOauth(String displayName, String profileUrl) {
+        this.displayName = displayName;
+        this.profileUrl = profileUrl;
+    }
 }

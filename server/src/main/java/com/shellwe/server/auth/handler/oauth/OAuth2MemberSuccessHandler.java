@@ -9,11 +9,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Slf4j
@@ -42,9 +48,8 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
         profileUrl = checkProfileUrlNull(profileUrl);
         Member memberByOauth = memberFactory(email, displayName, profileUrl);
-        oauthSignUpMember(memberByOauth);
+        Member memberByDb = oauthSignUpMember(memberByOauth);
 
-        Member memberByDb = oAuthMemberService.oauthFindMemberByEmail(email);
         redirectToken(request, response, memberByDb);
     }
 
@@ -66,8 +71,8 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         return member;
     }
 
-    private void oauthSignUpMember(Member member) {
-        oAuthMemberService.oauthSignUpMember(member);
+    private Member oauthSignUpMember(Member member) {
+        return oAuthMemberService.oauthSignUpMember(member);
     }
 
     private void redirectToken(HttpServletRequest request,
@@ -77,21 +82,10 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         String accessToken = delegateAccessToken(member);
         String refreshToken = delegateRefreshToken(member);
 
-        response.setHeader("Authorization", "Bearer " + accessToken);
-        response.setHeader("Refresh", refreshToken);
-
         response.setContentType("application/json");
-        response.setStatus(HttpStatus.OK.value());
 
-        Map<String, String> bodyContent = new HashMap<>();
-        bodyContent.put("id", member.getId().toString());
-        bodyContent.put("displayName", member.getDisplayName());
-        bodyContent.put("profileUrl", member.getProfileUrl());
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        String jsonBodyContent = objectMapper.writeValueAsString(bodyContent);
-
-        response.getWriter().write(jsonBodyContent);
+        String uri = createURI(accessToken, refreshToken, member).toString();
+        getRedirectStrategy().sendRedirect(request, response, uri);
 
         log.info("oauth response completed");
     }
@@ -120,5 +114,25 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         String refreshToken = jwtTokenizer.generateRefreshToken(subject, expirations, base64EncodedSecretKey);
 
         return refreshToken;
+    }
+
+    private URI createURI(String accessToken, String refreshToken, Member member) {
+
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add("Authorization", "Bearer " + accessToken);
+        queryParams.add("Refresh", refreshToken);
+        queryParams.add("id", member.getId().toString());
+        String displayName = member.getDisplayName();
+        String encodedDisplayName = URLEncoder.encode(displayName, StandardCharsets.UTF_8);
+        queryParams.add("displayName", encodedDisplayName);
+        queryParams.add("profileUrl", member.getProfileUrl());
+
+        return UriComponentsBuilder.newInstance()
+                .scheme("http")
+                .host("localhost")
+                .port(5173)
+                .path("/oauth2/authorization/google/success")
+                .queryParams(queryParams)
+                .build().toUri();
     }
 }

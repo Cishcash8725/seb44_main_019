@@ -24,17 +24,15 @@ public class OAuthMemberService {
         return findByEmail(email);
     }
 
-    public void oauthSignUpMember(Member member) {
+    public Member oauthSignUpMember(Member member) {
         log.info("sign-up in service layer by oauth start, member : {}", member);
 
-        if (verifyExistEmailByOauth(member.getEmail())) {
-            log.info("exist member in oauth");
-            return;
-        }
-        log.info("member password null");
-        memberRepository.save(member);
+        Member byEmail = findByEmail(member.getEmail());
+        byEmail.updateOauth(member.getDisplayName(), member.getProfileUrl());
 
         log.info("sign-up in service layer done");
+        return memberRepository.save(byEmail);
+
     }
 
     private Member findByEmail(String email) {

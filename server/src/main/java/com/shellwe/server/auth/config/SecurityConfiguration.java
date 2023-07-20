@@ -110,6 +110,7 @@ public class SecurityConfiguration {
                             .anyRequest().authenticated()
                     )
                     .oauth2Login(oauth2 -> oauth2
+                            .loginPage("/oauth2/authorization/google")
                             .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, oAuthMemberService))
                             .failureHandler(new OAuth2MemberFailureHandler())
                     );
