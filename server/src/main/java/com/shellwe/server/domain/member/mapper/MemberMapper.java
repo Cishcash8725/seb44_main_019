@@ -28,12 +28,12 @@ public interface MemberMapper {
 
     List<ShellResponseDto> shellListToGetMyShellListDto(List<Shell> activeShellList);
 
+    List<ShellForMyShellListDtoTags> shellListToGetMyShellListDtoTags(List<Shell> activeShellList);
+
     @Mapping(target="picture", expression="java(mapFirstPictureToDto(shell.getPictureUrls()))")
     @Mapping(target="type", source="shell.shellType")
     @Mapping(target="category", source="shell.category.shellCategory")
     ShellResponseDto shellToShellResponseDto(Shell shell);
-
-    List<ShellForMyShellListDtoTags> shellListToGetMyShellListDtoTags(List<Shell> activeShellList);
 
     @Mapping(target="picture", expression="java(mapFirstPictureToDto(shell.getPictureUrls()))")
     @Mapping(target="type", source="shell.shellType")

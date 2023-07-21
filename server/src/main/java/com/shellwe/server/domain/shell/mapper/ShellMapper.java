@@ -23,6 +23,10 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public interface ShellMapper {
 
+    List<ShellResponseDto> shellsToInquiryResponseDto(List<Shell> shells);
+
+    List<ShellResponseDto> shellsToSearchResponseDto(List<Shell> shells);
+
     @Mapping(target="member", source="shell.member", qualifiedByName="mapMemberToDto")
     @Mapping(target="pictures", source="shell.pictureUrls", qualifiedByName="mapPicturesToDto")
     @Mapping(target="tags", source="shell.tags", qualifiedByName="mapTagsToDto")
@@ -81,10 +85,6 @@ public interface ShellMapper {
         }
         return null;
     }
-
-    List<ShellResponseDto> shellsToInquiryResponseDto(List<Shell> shells);
-
-    List<ShellResponseDto> shellsToSearchResponseDto(List<Shell> shells);
 
     @Named("mapCategoryToShellCategory")
     default ShellCategory mapCategoryToShellCategory(Category category) {

@@ -2,8 +2,8 @@ package com.shellwe.server.file.filefolder;
 
 public enum FileFolder {
 
-    MEMBER_FOLDER("member/"),   // corresponding to member folder
-    SHELL_FOLDER("shell/");     // corresponding to shell folder
+    MEMBER_FOLDER("member/"),
+    SHELL_FOLDER("shell/");
 
     private final String folderName;
 

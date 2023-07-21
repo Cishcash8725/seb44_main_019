@@ -23,35 +23,28 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public interface TradeMapper {
 
+    List<ShellResponseDto> sellerTradeListToMyTradeResponseDto(List<Shell> sellerShells);
+
+    List<ShellResponseDto> buyerTradeListToMyTradeResponseDto(List<Shell> buyerShells);
+
+    List<ShellForMyTradeResponseDetails> buyerTradeListToMyTradeResponseDtoDetails(List<Shell> buyerShells);
+
+    List<MainPageResponseDto> shellsToInquiryToMainResponseDto(List<Shell> shells);
+
     @Mapping(target = "picture", expression = "java(mapFirstPictureToDto(shell.getPictureUrls()))")
     @Mapping(target = "type", source = "shell.shellType")
     @Mapping(target = "category", source = "shell.category.shellCategory")
     ShellResponseDto shellToShellResponseDto(Shell shell);
-
-    default String mapFirstPictureToDto(List<Picture> pictures) {
-        if (pictures != null && !pictures.isEmpty()) {
-            return pictures.get(0).getUrl();
-        }
-        return null;
-    }
-
-    List<ShellResponseDto> sellerTradeListToMyTradeResponseDto(List<Shell> sellerShells);
-
-    List<ShellResponseDto> buyerTradeListToMyTradeResponseDto(List<Shell> buyerShells);
 
     @Mapping(target = "pictures", source = "shell.pictureUrls", qualifiedByName = "mapPicturesToDto")
     @Mapping(target = "type", source = "shell.shellType")
     @Mapping(target = "category", source = "shell.category.shellCategory")
     ShellForMyTradeResponseDetails shellToShellForMyTradeResponseDetails(Shell shell);
 
-    List<ShellForMyTradeResponseDetails> buyerTradeListToMyTradeResponseDtoDetails(List<Shell> buyerShells);
-
     @Mapping(target = "picture", expression = "java(mapFirstPictureToDto(shell.getPictureUrls()))")
     @Mapping(target = "type", source = "shell.shellType")
     @Mapping(target = "category", source = "shell.category.shellCategory")
     MainPageResponseDto shellToMainPageResponseDto(Shell shell);
-
-    List<MainPageResponseDto> shellsToInquiryToMainResponseDto(List<Shell> shells);
 
     @Mapping(target = "member", source = "shell.member", qualifiedByName = "mapMemberToDto")
     @Mapping(target = "pictures", source = "shell.pictureUrls", qualifiedByName = "mapPicturesToDto")
@@ -59,6 +52,13 @@ public interface TradeMapper {
     @Mapping(target = "category", source = "shell.category", qualifiedByName = "mapCategoryToDto")
     @Mapping(target = "type", source = "shell.shellType")
     UpdateTradeStatusResponseDto shellToUpdateTradeStatusResponseDto(Shell shell);
+
+    default String mapFirstPictureToDto(List<Picture> pictures) {
+        if (pictures != null && !pictures.isEmpty()) {
+            return pictures.get(0).getUrl();
+        }
+        return null;
+    }
 
     @Named("mapPicturesToDto")
     default List<PictureResponseDto> mapPicturesToDto(List<Picture> pictures) {

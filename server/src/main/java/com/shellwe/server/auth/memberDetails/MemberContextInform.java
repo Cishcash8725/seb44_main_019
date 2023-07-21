@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class MemberContextInform {
+
     private Long id;
     private String email;
     private String displayName;
