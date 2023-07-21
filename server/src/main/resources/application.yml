@@ -32,7 +32,7 @@ spring:
               - profile
               - email
 mail:
-  url : "localhost:8080"
+  url : "http://ec2-13-209-106-52.ap-northeast-2.compute.amazonaws.com"
   smtp:
     host: smtp.gmail.com
     port: 587

@@ -1,11 +1,9 @@
 package com.shellwe.server.auth.handler.oauth;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shellwe.server.auth.jwt.JwtTokenizer;
 import com.shellwe.server.domain.member.entity.Member;
 import com.shellwe.server.domain.member.service.OAuthMemberService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;

@@ -5,7 +5,8 @@ import lombok.Getter;
 @Getter
 public enum CartExceptionCode {
 
-    CART_ALREADY_EXISTS(400, "Cart Duplicated");
+    CART_ALREADY_EXISTS(400, "Cart Duplicated"),
+    CART_DELETE_FAILED(400, "Cart Delete Failed");
 
     private int status;
 

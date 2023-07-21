@@ -5,7 +5,6 @@ import com.shellwe.server.domain.member.dto.request.UpdateRequestDto;
 import com.shellwe.server.domain.member.dto.response.FindResponseDto;
 import com.shellwe.server.domain.member.dto.response.ShellForMyShellListDtoTags;
 import com.shellwe.server.domain.member.entity.Member;
-import com.shellwe.server.domain.picture.dto.PictureResponseDto;
 import com.shellwe.server.domain.picture.entity.Picture;
 import com.shellwe.server.domain.shell.dto.response.ShellResponseDto;
 import com.shellwe.server.domain.shell.entity.Shell;

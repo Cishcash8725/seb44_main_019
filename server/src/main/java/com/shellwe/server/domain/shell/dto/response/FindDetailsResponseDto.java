@@ -8,12 +8,10 @@ import com.shellwe.server.domain.types.Status;
 import com.shellwe.server.domain.types.category.ShellCategory;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@ToString
 @Getter
 @Setter
 public class FindDetailsResponseDto {

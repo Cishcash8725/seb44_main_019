@@ -5,13 +5,11 @@ import com.shellwe.server.domain.types.category.ShellCategory;
 import com.shellwe.server.utils.customannotation.EachSize;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Size;
 import java.util.List;
 
-@ToString
 @Getter
 @Setter
 public class UpdateRequestDto {

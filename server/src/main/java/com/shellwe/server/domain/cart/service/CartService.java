@@ -52,9 +52,7 @@ public class CartService {
     }
 
     public void deleteShellInMyCart(long shellId, long memberId) {
-        if (shellService.getShellByOtherLayer(shellId).getMember().getId() == memberId) {
-            cartRepository.deleteAllByShellId(shellId);
-        }
+        cartRepository.deleteAllByShellId(shellId);
     }
 
     @Transactional(readOnly = true)

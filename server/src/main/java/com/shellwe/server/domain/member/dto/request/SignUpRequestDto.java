@@ -20,7 +20,7 @@ public class SignUpRequestDto {
 
     @NotBlank
     @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%&*])[a-zA-Z\\d!@#$%&*]{10,}$",
-            message = "Must contain at least 8 characters, including lowercase letters, numbers, and special symbols.")
+            message = "Must contain at least 10 characters, including lowercase letters, numbers, and special symbols.")
     private String password;
 
     @NotBlank
