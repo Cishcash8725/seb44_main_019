@@ -66,7 +66,7 @@ jwt:
 
 redirect:
   # 이메일 인증 성공시, 아직 url 페이지 없음, 이메일 인증 성공시 white error 뜰 예정(이메일 인증은 성공)
-  email-verification-success-url : "/login"
+  email-verification-success-url : "http://shellwe.net/aftersignup"
 # S3 연결 설정
 cloud:
   aws:
