@@ -31,12 +31,9 @@ public class EmailConfiguration {
     @Value("${mail.smtp.starttls.enable}")
     private String tlsEnable;
 
-    @Value("${mail.url}")
-    private String url;
-
     @Bean
     public EmailSendable templateEmailSendable(TemplateEngine templateEngine) {
-        return new TemplateEmailSendable(javaMailSender(), templateEngine, new Context(), url);
+        return new TemplateEmailSendable(javaMailSender(), templateEngine, new Context());
     }
 
     @Bean
