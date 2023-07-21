@@ -31,10 +31,10 @@ jobs:
         distribution: 'temurin'
     - name : Add permission
       run: chmod +x gradlew
-#       working-directory: ./websocket
+      working-directory: ./websocket
     - name: Build with Gradle
       run: sudo ./gradlew build
-      working-directory: ./websocket
+#       working-directory: ./websocket
 
     - name: Make zip file
       run: zip -r ./shellwewebsocket-deploy.zip *
