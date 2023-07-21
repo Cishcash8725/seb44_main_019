@@ -36,7 +36,7 @@ jobs:
       run: ls
       working-directory: ./websocket
     - name: Build with Gradle
-      run: gradlew build
+      run: ./gradlew build
       working-directory: ./websocket
 
     - name: Make zip file
