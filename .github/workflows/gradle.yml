@@ -32,6 +32,9 @@ jobs:
     - name : Add permission
       run: chmod +x gradlew
       working-directory: ./websocket
+    - name : Remove m
+      run: sed -i 's/\r//' gradlew
+      working-directory: ./websocket
     - name: Build with Gradle
       run: ./gradlew build
       working-directory: ./websocket
