@@ -38,6 +38,16 @@ server:                   # 모든 response 에 대해 지정된 인코딩 적�
   servlet:
     encoding:
       force-response: true
+cloud:
+  aws:
+    region:
+      use-default-aws-region-chain: false
+      static: ap-northeast-2
+    stack:
+      auto: false
+    credentials:
+      aws-access-key-id: ${AWS_IAM_ACCESS_KEY}
+      aws-secret-access-key: ${AWS_IAM_SECRET_KEY}
 jwt:                      # JWT 관련 정보
   key: ${JWT_SECRET_KEY}  # 시스템 환경 변수에서 로드
   access-token-expiration-minutes: 2000
