@@ -38,12 +38,10 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
       working-directory: ./websocket
-
     - name: Make zip file
       run: zip -r ./shellwewebsocket-deploy.zip *
       shell: bash
-      working-directory: ./websocket
-      
+      working-directory: ./websocket      
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
