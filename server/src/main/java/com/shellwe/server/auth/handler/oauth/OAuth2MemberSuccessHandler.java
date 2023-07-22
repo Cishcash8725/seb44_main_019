@@ -128,8 +128,8 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         return UriComponentsBuilder.newInstance()
                 .scheme("http")
                 .host("shellwe.net.s3-website.ap-northeast-2.amazonaws.com")
-                .path("/oauth2/authorization/google/success")
-                .queryParams(queryParams)
+                .path("/main")
+                //.queryParams(queryParams)
                 .build().toUri();
     }
 }
