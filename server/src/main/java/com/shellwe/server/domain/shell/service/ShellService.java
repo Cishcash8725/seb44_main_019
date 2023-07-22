@@ -116,7 +116,7 @@ public class ShellService {
         if (cursor == 0 && sort.equals("newest")) {
             cursor = shellRepository.findMaxId().orElse(0L) + 1L;
         } else if (cursor == 0 && sort.equals("oldest")) {
-            cursor = shellRepository.findMinId().orElse(0L);
+            cursor = shellRepository.findMinId().orElse(0L) - 1L;
         }
         String sortOrder = checkSortType(sort);
         Pageable pageable = PageRequest.of(0, limit);
