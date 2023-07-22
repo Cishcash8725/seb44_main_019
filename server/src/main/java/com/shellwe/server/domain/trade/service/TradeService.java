@@ -66,6 +66,10 @@ public class TradeService {
         }
     }
 
+    public void deleteTrade(TradeRequestDto tradeRequestDto, long buyerId, long sellerId) {
+        // chat 수락시 어떤 찌르기 요청을 삭제해야 하는가?
+    }
+
     @Transactional(readOnly = true)
     public MyTradeResponseDto myTrade(long memberId) {
         List<Long> sellerShellsId = tradeRepository.getSellerShellsBySellerId(memberId);
@@ -91,6 +95,7 @@ public class TradeService {
 
         if (shell.getMember().getId() == memberId) {
             shell.setStatus(updateTradeStatusRequestDto.getStatus());
+            shellService.saveFromOtherLayer(shell);
             if (updateTradeStatusRequestDto.getStatus().equals(Status.INACTIVE)) {
                 tradeRepository.deleteAllBySellerId(shell.getId());
             }
@@ -129,3 +134,4 @@ public class TradeService {
         tradeRepository.deleteAllByBuyerId(memberRemoveEvent.getId());
     }
 }
+

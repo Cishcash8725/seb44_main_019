@@ -2,6 +2,8 @@ package com.shellwe.server.domain.member.service;
 
 import com.shellwe.server.domain.member.entity.Member;
 import com.shellwe.server.domain.member.repository.MemberRepository;
+import com.shellwe.server.exception.customexception.MemberLogicException;
+import com.shellwe.server.exception.exceptioncode.MemberExceptionCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,12 +29,26 @@ public class OAuthMemberService {
     public Member oauthSignUpMember(Member member) {
         log.info("sign-up in service layer by oauth start, member : {}", member);
 
-        Member byEmail = findByEmail(member.getEmail());
-        byEmail.updateOauth(member.getDisplayName(), member.getProfileUrl());
+        Optional<Member> optionalMember = memberRepository.findByEmail(member.getEmail());
 
-        log.info("sign-up in service layer done");
-        return memberRepository.save(byEmail);
+        if (!optionalMember.isPresent()) {
+            return memberRepository.save(member);
+        }
 
+        Member existMember = optionalMember.get();
+        if (existMember.getPassword() == null) {
+            existMember.updateOauth(member.getDisplayName(), member.getProfileUrl());
+            return memberRepository.save(existMember);
+        } else if (existMember.getPassword() != null) {
+            throw new MemberLogicException(MemberExceptionCode.EMAIL_DUPLICATED);
+        }
+
+        throw new MemberLogicException(MemberExceptionCode.FAILED_SIGN_UP_OAUTH);
+    }
+
+    private Optional<Member> findByEmailAllowNull(String email) {
+        Optional<Member> byEmail = memberRepository.findByEmail(email);
+        return byEmail;
     }
 
     private Member findByEmail(String email) {

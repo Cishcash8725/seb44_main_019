@@ -184,4 +184,8 @@ public class ShellService {
         Optional<Shell> byId = shellRepository.findById(shellId);
         return byId.orElseThrow(() -> new ShellLogicException(ShellExceptionCode.SHELL_NOT_MY_ID));
     }
+
+    public void saveFromOtherLayer(Shell shell) {
+        shellRepository.save(shell);
+    }
 }

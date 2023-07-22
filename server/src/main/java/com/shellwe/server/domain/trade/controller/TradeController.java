@@ -39,6 +39,12 @@ public class TradeController {
         tradeService.trade(tradeRequestDto, sellerId, getId(authentication));
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PostMapping("/{buyerId}")
+    public void deleteTrade(@RequestBody TradeRequestDto tradeRequestDto, @PathVariable long buyerId, Authentication authentication) {
+        tradeService.deleteTrade(tradeRequestDto, buyerId, getId(authentication));
+    }
+
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{shellId}")
     public MyTradeResponseDetailsDto getMySpecificShellTrades(@PathVariable long shellId, Authentication authentication) {
