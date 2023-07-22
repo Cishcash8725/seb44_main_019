@@ -35,7 +35,7 @@ public interface ShellRepository extends JpaRepository<Shell, Long> {
 
     @Query("select s from Shell s " +
             "join fetch s.member m " +
-            "where s.id < :cursor " +
+            "where s.id > :cursor " +
             "and s.shellType = :shellType " +
             "and s.category.shellCategory = :shellCategory " +
             "order by s.id asc")
@@ -55,7 +55,7 @@ public interface ShellRepository extends JpaRepository<Shell, Long> {
 
     @Query("select s from Shell s " +
             "join fetch s.member m " +
-            "where s.id < :cursor " +
+            "where s.id > :cursor " +
             "and s.shellType = :shellType " +
             "order by s.id asc")
     List<Shell> findAllCategoryShellsAsc(@Param("cursor") Long cursor,
@@ -64,6 +64,9 @@ public interface ShellRepository extends JpaRepository<Shell, Long> {
 
     @Query("SELECT MAX(s.id) FROM Shell s")
     Optional<Long> findMaxId();
+
+    @Query("SELECT MIN(s.id) FROM Shell s")
+    Optional<Long> findMinId();
 }
 
 

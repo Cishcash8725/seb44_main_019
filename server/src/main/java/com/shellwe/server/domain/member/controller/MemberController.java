@@ -51,7 +51,7 @@ public class MemberController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{memberId}")
     public FindResponseDtoIncludeOauth getMemberById(@PathVariable long memberId, Authentication authentication) {
-        return memberService.findMemberById(getId(authentication), memberId);
+        return memberService.findMemberById(getIdAllowNull(authentication), memberId);
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -75,6 +75,17 @@ public class MemberController {
         Long id;
         if (authentication == null) {
             throw new AccessTokenException(AccessTokenExceptionCode.TOKEN_EXPIRED);
+        } else {
+            MemberContextInform memberInform = (MemberContextInform) authentication.getPrincipal();
+            id = memberInform.getId();
+        }
+        return id;
+    }
+
+    private Long getIdAllowNull(Authentication authentication) {
+        Long id;
+        if (authentication == null) {
+            id = null;
         } else {
             MemberContextInform memberInform = (MemberContextInform) authentication.getPrincipal();
             id = memberInform.getId();

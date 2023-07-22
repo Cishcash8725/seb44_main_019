@@ -113,8 +113,10 @@ public class ShellService {
 
     @Transactional(readOnly = true)
     public InquiryResponseDto inquiry(int limit, Long cursor, ShellType shellType, ShellCategory shellCategory, String sort) {
-        if (cursor == 0) {
-            cursor = shellRepository.findMaxId().orElse(0L) + 1;
+        if (cursor == 0 && sort.equals("newest")) {
+            cursor = shellRepository.findMaxId().orElse(0L) + 1L;
+        } else if (cursor == 0 && sort.equals("oldest")) {
+            cursor = shellRepository.findMinId().orElse(0L);
         }
         String sortOrder = checkSortType(sort);
         Pageable pageable = PageRequest.of(0, limit);

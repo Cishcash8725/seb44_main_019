@@ -82,17 +82,17 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public FindResponseDtoIncludeOauth findMemberById(long contextId, long memberId) {
+    public FindResponseDtoIncludeOauth findMemberById(Long contextId, long memberId) {
         log.info("find member in service layer by Id start, memberId : {}", memberId);
         FindResponseDtoIncludeOauth findResponseDtoIncludeOauth = new FindResponseDtoIncludeOauth();
 
-        if (contextId != memberId) {
+        if (contextId == null || memberId != contextId) {
             Member findMember = findById(memberId);
             findResponseDtoIncludeOauth.setIsMeIdName(false, findMember.getId(),
                     findMember.getDisplayName(), findMember.getProfileUrl(), findMember.getIntroduction());
             return findResponseDtoIncludeOauth;
         }
-        if (contextId == memberId) {
+        if (memberId == contextId) {
             Member findMember = findById(memberId);
             findResponseDtoIncludeOauth.setIsMeIdName(true, findMember.getId(),
                     findMember.getDisplayName(), findMember.getProfileUrl(), findMember.getIntroduction());
