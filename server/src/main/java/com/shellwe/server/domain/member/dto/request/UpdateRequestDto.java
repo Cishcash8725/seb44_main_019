@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 @Setter
 public class UpdateRequestDto {
 
-    @Pattern(regexp = "^(?=.[A-Za-z])(?=.\\d)[A-Za-z\\d!@#$%^&*()-_=+~<>?/\\[]{},.;:'\"|]{8,}$",
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d).{8,}$",
             message = "Must contain at least 8 characters, including letters, numbers.")
     private String password;
 
