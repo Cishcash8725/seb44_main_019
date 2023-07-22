@@ -9,6 +9,6 @@ import javax.validation.constraints.Pattern;
 @Setter
 public class DeleteRequestDto {
 
-    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%&*])[a-zA-Z\\d!@#$%&*]{10,}$")
+    @Pattern(regexp = "^(?=.[A-Za-z])(?=.\\d)[A-Za-z\\d!@#$%^&*()-_=+~<>?/\\[]{},.;:'\"|]{8,}$")
     private String password;
 }

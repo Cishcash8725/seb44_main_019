@@ -19,8 +19,8 @@ public class SignUpRequestDto {
     private Boolean emailVerificationStatus = false;
 
     @NotBlank
-    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%&*])[a-zA-Z\\d!@#$%&*]{10,}$",
-            message = "Must contain at least 10 characters, including lowercase letters, numbers, and special symbols.")
+    @Pattern(regexp = "^(?=.[A-Za-z])(?=.\\d)[A-Za-z\\d!@#$%^&*()-_=+~<>?/\\[]{},.;:'\"|]{8,}$",
+            message = "Must contain at least 8 characters, including letters, numbers.")
     private String password;
 
     @NotBlank
