@@ -67,7 +67,23 @@ public class TradeService {
     }
 
     public void deleteTrade(TradeRequestDto tradeRequestDto, long buyerId, long sellerId) {
-        // chat 수락시 어떤 찌르기 요청을 삭제해야 하는가?
+        Member buyer = memberService.getMemberByOtherLayer(buyerId);
+        Member seller = memberService.getMemberByOtherLayer(sellerId);
+
+        Shell buyerShell = shellService.getShellByOtherLayer(tradeRequestDto.getBuyerShellId());
+        Shell sellerShell = shellService.getShellByOtherLayer(tradeRequestDto.getSellerShellId());
+
+        if (buyerShell.getMember().getId() != buyer.getId() || sellerShell.getMember().getId() != seller.getId()) {
+            throw new TradeLogicException(TradeExceptionCode.TRADE_DELETE_FAILED);
+        } else {
+            Optional<Trade> existTrade = tradeRepository.findBySellerAndBuyerAndBuyerShellAndSellerShell(seller, buyer, buyerShell, sellerShell);
+
+            if (existTrade.isPresent()) {
+                tradeRepository.delete(existTrade.get());
+            } else {
+                throw new TradeLogicException(TradeExceptionCode.TRADE_DOES_NOT_EXIST);
+            }
+        }
     }
 
     @Transactional(readOnly = true)

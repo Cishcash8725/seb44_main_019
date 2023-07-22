@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = EachSizeValidator.class)
 public @interface EachSize {
-    String message() default "each tag under 10 length";
+    String message() default "each tag under 20 length";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
     int min() default 0;

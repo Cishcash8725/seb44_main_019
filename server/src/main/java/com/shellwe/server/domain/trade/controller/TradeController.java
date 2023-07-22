@@ -40,7 +40,7 @@ public class TradeController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PostMapping("/{buyerId}")
+    @DeleteMapping("/{buyerId}")
     public void deleteTrade(@RequestBody TradeRequestDto tradeRequestDto, @PathVariable long buyerId, Authentication authentication) {
         tradeService.deleteTrade(tradeRequestDto, buyerId, getId(authentication));
     }
