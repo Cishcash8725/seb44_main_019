@@ -35,10 +35,12 @@ public class SecurityConfiguration {
 
     private final JwtTokenizer jwtTokenizer;
     private final OAuthMemberService oAuthMemberService;
+    private final OAuth2MemberFailureHandler oAuth2MemberFailureHandler;
 
-    public SecurityConfiguration(JwtTokenizer jwtTokenizer, OAuthMemberService oAuthMemberService) {
+    public SecurityConfiguration(JwtTokenizer jwtTokenizer, OAuthMemberService oAuthMemberService, OAuth2MemberFailureHandler oAuth2MemberFailureHandler) {
         this.jwtTokenizer = jwtTokenizer;
         this.oAuthMemberService = oAuthMemberService;
+        this.oAuth2MemberFailureHandler = oAuth2MemberFailureHandler;
     }
 
     @Bean
@@ -112,7 +114,7 @@ public class SecurityConfiguration {
                     .oauth2Login(oauth2 -> oauth2
                             .loginPage("/oauth2/authorization/google")
                             .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, oAuthMemberService))
-                            .failureHandler(new OAuth2MemberFailureHandler())
+                            .failureHandler(oAuth2MemberFailureHandler)
                     );
 
         return http.build();
