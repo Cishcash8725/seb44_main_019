@@ -64,7 +64,7 @@ jwt:
   refresh-token-expiration-minutes: 5000
 
 redirect:
-  email-verification-success-url : "http://shellwe.net/signup"
+  email-verification-success-url : "http://shellwe.net/login"
 cloud:
   aws:
     region:

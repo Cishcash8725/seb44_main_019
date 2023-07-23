@@ -17,7 +17,7 @@ import java.util.List;
 public class UpdateRequestDto {
 
     @NotBlank(message = "title required")
-    @Size(max = 10, message = "Title should be within 10 characters")
+    @Size(max = 20, message = "title within 20 characters")
     private String title;
 
     @NotBlank(message = "body required")

@@ -26,14 +26,6 @@ public class OAuth2MemberFailureHandler implements AuthenticationFailureHandler 
         log.error("OAuth2 Authentication Failed", exception);
         log.info("request = {}", request);
 
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.setContentType("application/json");
-
-        Map<String, String> errorResponse = new HashMap<>();
-        errorResponse.put("error", "OAuth2 Authentication Failed");
-        errorResponse.put("message", exception.getMessage());
-        // /oauth2/authorization/google/fail
-
-        response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
+        response.sendRedirect("http://shellwe.net/oauth2/authorization/google/fail");
     }
 }
