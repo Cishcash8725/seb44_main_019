@@ -5,6 +5,7 @@ import com.shellwe.server.domain.member.entity.Member;
 import com.shellwe.server.domain.member.service.OAuthMemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.util.LinkedMultiValueMap;
@@ -25,12 +26,15 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
     private final JwtTokenizer jwtTokenizer;
     private final OAuthMemberService oAuthMemberService;
+    private final OAuth2MemberFailureHandler failureHandler;
 
     public OAuth2MemberSuccessHandler(JwtTokenizer jwtTokenizer,
-                                      OAuthMemberService oAuthMemberService) {
+                                      OAuthMemberService oAuthMemberService,
+                                      OAuth2MemberFailureHandler failureHandler) {
 
         this.jwtTokenizer = jwtTokenizer;
         this.oAuthMemberService = oAuthMemberService;
+        this.failureHandler = failureHandler;
     }
 
     @Override
@@ -46,9 +50,13 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
         profileUrl = checkProfileUrlNull(profileUrl);
         Member memberByOauth = memberFactory(email, displayName, profileUrl);
-        Member memberByDb = oauthSignUpMember(memberByOauth);
 
-        redirectToken(request, response, memberByDb);
+        Member memberByDb = oauthSignUpMember(memberByOauth);
+        if (memberByDb == null) {
+            failureHandler.onAuthenticationFailure(request, response, new AuthenticationException("Oauth failed, Duplicated Email") {});
+        } else {
+            redirectToken(request, response, memberByDb);
+        }
     }
 
     private String checkProfileUrlNull(String profileUrl) {

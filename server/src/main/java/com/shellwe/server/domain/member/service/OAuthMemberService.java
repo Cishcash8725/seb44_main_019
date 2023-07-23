@@ -40,10 +40,11 @@ public class OAuthMemberService {
             existMember.updateOauth(member.getDisplayName(), member.getProfileUrl());
             return memberRepository.save(existMember);
         } else if (existMember.getPassword() != null) {
-            throw new MemberLogicException(MemberExceptionCode.EMAIL_DUPLICATED);
+            return null;
         }
 
-        throw new MemberLogicException(MemberExceptionCode.FAILED_SIGN_UP_OAUTH);
+//        throw new MemberLogicException(MemberExceptionCode.FAILED_SIGN_UP_OAUTH);
+        return null;
     }
 
     private Optional<Member> findByEmailAllowNull(String email) {
