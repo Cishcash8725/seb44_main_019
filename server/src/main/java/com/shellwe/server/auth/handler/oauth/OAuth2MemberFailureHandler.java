@@ -32,6 +32,7 @@ public class OAuth2MemberFailureHandler implements AuthenticationFailureHandler 
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("error", "OAuth2 Authentication Failed");
         errorResponse.put("message", exception.getMessage());
+        // /oauth2/authorization/google/fail
 
         response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
     }

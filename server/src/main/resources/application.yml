@@ -32,7 +32,6 @@ spring:
               - profile
               - email
 mail:
-#  url : "http://ec2-13-209-106-52.ap-northeast-2.compute.amazonaws.com"
   smtp:
     host: smtp.gmail.com
     port: 587
@@ -65,9 +64,7 @@ jwt:
   refresh-token-expiration-minutes: 5000
 
 redirect:
-  # 이메일 인증 성공시, 아직 url 페이지 없음, 이메일 인증 성공시 white error 뜰 예정(이메일 인증은 성공)
   email-verification-success-url : "http://shellwe.net/signup"
-# S3 연결 설정
 cloud:
   aws:
     region:
