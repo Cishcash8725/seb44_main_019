@@ -1,5 +1,7 @@
 package com.shellwe.server.domain.member.entity;
 
+import com.shellwe.server.domain.memberRoom.MemberRoom;
+import com.shellwe.server.domain.message.Message;
 import com.shellwe.server.domain.shell.entity.Shell;
 import com.shellwe.server.domain.types.Status;
 import com.shellwe.server.utils.TimeTracker;
@@ -43,6 +45,12 @@ public class Member extends TimeTracker {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Shell> shells = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Message> messages = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<MemberRoom> memberRooms = new ArrayList<>();
 
     public Member(Member member, String password) {
         this.email = member.getEmail();

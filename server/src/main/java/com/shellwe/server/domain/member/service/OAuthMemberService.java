@@ -42,8 +42,6 @@ public class OAuthMemberService {
         } else if (existMember.getPassword() != null) {
             return null;
         }
-
-//        throw new MemberLogicException(MemberExceptionCode.FAILED_SIGN_UP_OAUTH);
         return null;
     }
 
