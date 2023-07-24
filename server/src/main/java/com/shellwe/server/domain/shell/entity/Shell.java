@@ -1,5 +1,6 @@
 package com.shellwe.server.domain.shell.entity;
 
+import com.shellwe.server.domain.cart.entity.Cart;
 import com.shellwe.server.domain.category.entity.Category;
 import com.shellwe.server.domain.member.entity.Member;
 import com.shellwe.server.domain.picture.entity.Picture;
@@ -57,9 +58,13 @@ public class Shell extends TimeTracker {
     @JoinColumn(name = "SHELL_ID")
     private List<Picture> pictureUrls = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "SHELL_ID")
+    private List<Cart> cart = new ArrayList<>();
 
     public void statusActive() {
         this.status = Status.ACTIVE;
