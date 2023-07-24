@@ -32,4 +32,8 @@ public class Shell extends TimeTracker {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
+
+    public Shell(Long id) {
+        this.id = id;
+    }
 }

@@ -8,6 +8,7 @@ public enum ExceptionCode {
     MEMBER_ROOM_NOT_FOUND(404, "MemberRoom not found"),
     MEMBER_ROOM_EXISTS(400, "MemberRoom exists"),
     SHELL_NOT_FOUND(404, "Shell not found"),
+    TRADE_NOT_FOUND(404, "Trade not found"),
     WRONG_ROOM_NUMBER(404, "Wrong room number ");
     @Getter
     private int status;

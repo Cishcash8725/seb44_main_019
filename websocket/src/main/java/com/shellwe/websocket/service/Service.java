@@ -35,7 +35,7 @@ public abstract class Service {
 
     protected Shell findExistsShell(long shellId){
         Optional<Shell> optionalShell = shellRepository.findById(shellId);
-        return optionalShell.orElseThrow(()->new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        return optionalShell.orElseThrow(()->new BusinessLogicException(ExceptionCode.SHELL_NOT_FOUND));
     }
     protected Member findExistsMember(long memberId){
         Optional<Member> optionalMember = memberRepository.findById(memberId);

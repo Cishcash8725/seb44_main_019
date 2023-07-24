@@ -1,24 +1,28 @@
 package com.shellwe.websocket.service;
 
 import com.shellwe.websocket.dto.ChatRoom;
-import com.shellwe.websocket.entity.Member;
-import com.shellwe.websocket.entity.Message;
-import com.shellwe.websocket.entity.Room;
+import com.shellwe.websocket.entity.*;
+import com.shellwe.websocket.exception.businessLogicException.BusinessLogicException;
+import com.shellwe.websocket.exception.businessLogicException.ExceptionCode;
 import com.shellwe.websocket.repository.MessageRepository;
+import com.shellwe.websocket.repository.TradeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Component
 public class AsyncService {
     private final MessageRepository messageRepository;
+    private final TradeRepository tradeRepository;
 
-    public AsyncService(MessageRepository messageRepository) {
+    public AsyncService(MessageRepository messageRepository,TradeRepository tradeRepository) {
         this.messageRepository = messageRepository;
+        this.tradeRepository = tradeRepository;
     }
 
     @Async("threadPoolTaskExecutor")
@@ -31,5 +35,16 @@ public class AsyncService {
         if(joinedMemberNumber<2) message.setUnread(true);
 
         messageRepository.save(message);
+    }
+
+    @Async("threadPoolTaskExecutor")
+    public void deleteTrade(long myShellId, long traderShellId){
+        Trade trade = findExistsTrade(myShellId, traderShellId);
+        tradeRepository.delete(trade);
+    }
+
+    private Trade findExistsTrade(long myShellId, long traderShellId){
+        Optional<Trade> optionalTrade = tradeRepository.findByBuyerShellAndSellerShell(new Shell(traderShellId), new Shell(myShellId));
+        return optionalTrade.orElseThrow(()->new BusinessLogicException(ExceptionCode.TRADE_NOT_FOUND));
     }
 }

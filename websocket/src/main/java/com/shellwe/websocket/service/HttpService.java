@@ -25,16 +25,16 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class HttpService extends com.shellwe.websocket.service.Service {
-    @Value("${client-server.url}")
-    private String url;
-
+    private final AsyncService asyncService;
     public HttpService(MemberRoomRepository memberRoomRepository,
                        MemberRepository memberRepository,
                        RoomRepository roomRepository,
                        MessageRepository messageRepository,
                        RoomMapper roomMapper,
-                       ShellRepository shellRepository) {
+                       ShellRepository shellRepository,
+                       AsyncService asyncService) {
         super(memberRoomRepository, memberRepository, roomRepository, messageRepository, roomMapper,shellRepository);
+        this.asyncService = asyncService;
     }
 
     public List<RoomDto.Response> findAllRoom() {
@@ -78,6 +78,7 @@ public class HttpService extends com.shellwe.websocket.service.Service {
         createInitMessage(room,traderId,traderShellId);
 
         // 해당 거래 요청 제안 삭제 비동기
+        asyncService.deleteTrade(myShellId, traderShellId);
 
         // 프론트엔드와 상의 후 response 다시 정의
         return ResponseDto.builder()
