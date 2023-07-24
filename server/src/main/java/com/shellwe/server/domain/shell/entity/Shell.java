@@ -58,7 +58,7 @@ public class Shell extends TimeTracker {
     @JoinColumn(name = "SHELL_ID")
     private List<Picture> pictureUrls = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
