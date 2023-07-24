@@ -29,11 +29,11 @@ public class Trade extends TimeTracker {
     @JoinColumn(name = "BUYER_ID")
     private Member buyer;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "BUYER_SHELL_ID")
     private Shell buyerShell;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "SELLER_SHELL_ID")
     private Shell sellerShell;
 
