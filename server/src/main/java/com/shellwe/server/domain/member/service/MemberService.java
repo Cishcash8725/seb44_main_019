@@ -133,7 +133,7 @@ public class MemberService {
         Member findMember = findById(contextId);
 
         if (memberId == contextId && passwordEncoder.matches(deleteRequestDto.getPassword(), findMember.getPassword())) {
-            eventPublisher.publishEvent(new MemberRemoveEvent(findMember.getId()));
+            eventPublisher.publishEvent(new MemberRemoveEvent(memberId));
             memberRepository.delete(findMember);
         } else {
             throw new MemberLogicException(MemberExceptionCode.MEMBER_NOT_MY_ID);

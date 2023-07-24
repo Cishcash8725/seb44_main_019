@@ -29,7 +29,7 @@ public class MemberRoom {
     @Column
     private Long traderShellId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "member_id")
     private Member member;
 

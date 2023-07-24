@@ -26,11 +26,11 @@ public class Message extends TimeTracker {
     @Column
     private boolean notification;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "room_id")
     private Room room;
 }
