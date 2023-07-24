@@ -1,10 +1,5 @@
 package com.shellwe.websocket.entity;
 
-import com.shellwe.server.domain.category.entity.Category;
-import com.shellwe.server.domain.picture.entity.Picture;
-import com.shellwe.server.domain.tag.entity.Tag;
-import com.shellwe.server.domain.types.ShellType;
-import com.shellwe.server.domain.types.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,10 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @AllArgsConstructor
 @NoArgsConstructor
