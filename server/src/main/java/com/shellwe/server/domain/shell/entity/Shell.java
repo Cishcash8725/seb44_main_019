@@ -62,10 +62,6 @@ public class Shell extends TimeTracker {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "SHELL_ID")
-    private List<Cart> cart = new ArrayList<>();
-
     public void statusActive() {
         this.status = Status.ACTIVE;
     }
