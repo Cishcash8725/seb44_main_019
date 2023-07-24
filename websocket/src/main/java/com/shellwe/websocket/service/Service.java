@@ -5,17 +5,11 @@ import com.shellwe.websocket.auth.memberDetails.MemberContextInform;
 import com.shellwe.websocket.dto.ChatRoom;
 import com.shellwe.websocket.dto.MemberDto;
 import com.shellwe.websocket.dto.QueryDto;
-import com.shellwe.websocket.entity.Member;
-import com.shellwe.websocket.entity.MemberRoom;
-import com.shellwe.websocket.entity.Message;
-import com.shellwe.websocket.entity.Room;
+import com.shellwe.websocket.entity.*;
 import com.shellwe.websocket.exception.businessLogicException.BusinessLogicException;
 import com.shellwe.websocket.exception.businessLogicException.ExceptionCode;
 import com.shellwe.websocket.mapper.RoomMapper;
-import com.shellwe.websocket.repository.MemberRepository;
-import com.shellwe.websocket.repository.MemberRoomRepository;
-import com.shellwe.websocket.repository.MessageRepository;
-import com.shellwe.websocket.repository.RoomRepository;
+import com.shellwe.websocket.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
@@ -37,6 +31,12 @@ public abstract class Service {
     protected final RoomRepository roomRepository;
     protected final MessageRepository messageRepository;
     protected final RoomMapper roomMapper;
+    protected final ShellRepository shellRepository;
+
+    protected Shell findExistsShell(long shellId){
+        Optional<Shell> optionalShell = shellRepository.findById(shellId);
+        return optionalShell.orElseThrow(()->new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+    }
     protected Member findExistsMember(long memberId){
         Optional<Member> optionalMember = memberRepository.findById(memberId);
         return optionalMember.orElseThrow(()->new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));

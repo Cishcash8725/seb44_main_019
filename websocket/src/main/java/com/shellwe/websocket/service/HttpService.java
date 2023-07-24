@@ -4,17 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shellwe.websocket.dto.ChatRoom;
 import com.shellwe.websocket.dto.ResponseDto;
 import com.shellwe.websocket.dto.RoomDto;
-import com.shellwe.websocket.entity.Member;
-import com.shellwe.websocket.entity.MemberRoom;
-import com.shellwe.websocket.entity.Message;
-import com.shellwe.websocket.entity.Room;
+import com.shellwe.websocket.entity.*;
 import com.shellwe.websocket.exception.businessLogicException.BusinessLogicException;
 import com.shellwe.websocket.exception.businessLogicException.ExceptionCode;
 import com.shellwe.websocket.mapper.RoomMapper;
-import com.shellwe.websocket.repository.MemberRepository;
-import com.shellwe.websocket.repository.MemberRoomRepository;
-import com.shellwe.websocket.repository.MessageRepository;
-import com.shellwe.websocket.repository.RoomRepository;
+import com.shellwe.websocket.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,8 +32,9 @@ public class HttpService extends com.shellwe.websocket.service.Service {
                        MemberRepository memberRepository,
                        RoomRepository roomRepository,
                        MessageRepository messageRepository,
-                       RoomMapper roomMapper) {
-        super(memberRoomRepository, memberRepository, roomRepository, messageRepository, roomMapper);
+                       RoomMapper roomMapper,
+                       ShellRepository shellRepository) {
+        super(memberRoomRepository, memberRepository, roomRepository, messageRepository, roomMapper,shellRepository);
     }
 
     public List<RoomDto.Response> findAllRoom() {
@@ -82,6 +77,8 @@ public class HttpService extends com.shellwe.websocket.service.Service {
         createInitMessage(room,myId,myShellId);
         createInitMessage(room,traderId,traderShellId);
 
+        // 해당 거래 요청 제안 삭제 비동기
+
         // 프론트엔드와 상의 후 response 다시 정의
         return ResponseDto.builder()
                 .roomsUrl("http://localhost:8080/chat")
@@ -99,11 +96,12 @@ public class HttpService extends com.shellwe.websocket.service.Service {
     }
 
     private void createInitMessage(Room room, long memberId, long shellId){
+        Shell shell = findExistsShell(shellId);
         Member member = findExistsMember(memberId);
         Message message = new Message();
                 message.setRoom(room);
                 message.setNotification(true);
-                message.setPayload(member.getDisplayName()+"님께서 거래하실 Shell : " + url +"/shells/"+shellId);
+                message.setPayload(member.getDisplayName()+"님께서 거래하실 Shell : " + shell.getTitle());
         messageRepository.save(message);
     }
 }
