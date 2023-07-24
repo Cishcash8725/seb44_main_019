@@ -60,8 +60,8 @@ server:
       force-response: true
 jwt:
   key: ${JWT_SECRET_KEY}
-  access-token-expiration-minutes: 10000
-  refresh-token-expiration-minutes: 5000
+  access-token-expiration-minutes: 1444
+  refresh-token-expiration-minutes: 1444
 
 redirect:
   email-verification-success-url : "http://shellwe.net/login"
