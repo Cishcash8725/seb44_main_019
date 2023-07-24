@@ -3,10 +3,7 @@ package com.shellwe.websocket.service;
 import com.shellwe.websocket.dto.ChatRoom;
 import com.shellwe.websocket.dto.MemberDto;
 import com.shellwe.websocket.mapper.RoomMapper;
-import com.shellwe.websocket.repository.MemberRepository;
-import com.shellwe.websocket.repository.MemberRoomRepository;
-import com.shellwe.websocket.repository.MessageRepository;
-import com.shellwe.websocket.repository.RoomRepository;
+import com.shellwe.websocket.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -24,8 +21,9 @@ public class WsRoomService extends Service{
                          MemberRepository memberRepository,
                          RoomRepository roomRepository,
                          MessageRepository messageRepository,
+                         ShellRepository shellRepository,
                          RoomMapper roomMapper) {
-        super(memberRoomRepository, memberRepository, roomRepository, messageRepository, roomMapper);
+        super(memberRoomRepository, memberRepository, roomRepository, messageRepository, roomMapper,shellRepository);
     }
 
     public void getRoomInfo(WebSocketSession session) throws IOException {
