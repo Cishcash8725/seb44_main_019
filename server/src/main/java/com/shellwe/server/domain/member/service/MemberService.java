@@ -10,6 +10,7 @@ import com.shellwe.server.domain.member.entity.Member;
 import com.shellwe.server.domain.member.mapper.MemberMapper;
 import com.shellwe.server.domain.member.repository.MemberRepository;
 import com.shellwe.server.domain.shell.entity.Shell;
+import com.shellwe.server.domain.shell.service.ShellService;
 import com.shellwe.server.domain.types.Status;
 import com.shellwe.server.email.EmailSendable;
 import com.shellwe.server.exception.customexception.EmailLogicException;
@@ -28,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Transactional
@@ -133,7 +135,14 @@ public class MemberService {
         Member findMember = findById(contextId);
 
         if (memberId == contextId && passwordEncoder.matches(deleteRequestDto.getPassword(), findMember.getPassword())) {
-            eventPublisher.publishEvent(new MemberRemoveEvent(memberId));
+            // 멤버와 연결되어 있는 쉘 아이디를 조회한다.
+            // 연결된 쉘들을 다 삭제한다. -> 이벤트 발행으로 삭제
+            // 멤버를 삭제한다.
+            List<Long> shellIds = findMember.getShells().stream()
+                    .map(Shell::getId)
+                    .collect(Collectors.toList());
+            
+            eventPublisher.publishEvent(new MemberRemoveEvent(memberId, shellIds));
             memberRepository.delete(findMember);
         } else {
             throw new MemberLogicException(MemberExceptionCode.MEMBER_NOT_MY_ID);

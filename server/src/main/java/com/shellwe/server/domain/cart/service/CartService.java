@@ -77,5 +77,8 @@ public class CartService {
     @EventListener
     public void handleMemberRemoveEvent(MemberRemoveEvent memberRemoveEvent) {
         cartRepository.deleteAllByOwnerId(memberRemoveEvent.getId());
+        for(Long shellId : memberRemoveEvent.getShellIds()) {
+            cartRepository.deleteAllByShellId(shellId);
+        }
     }
 }
