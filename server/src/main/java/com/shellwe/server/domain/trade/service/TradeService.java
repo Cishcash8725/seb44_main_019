@@ -20,6 +20,7 @@ import com.shellwe.server.utils.event.ShellRemoveEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -122,7 +123,8 @@ public class TradeService {
 
     @Transactional(readOnly = true)
     public InquiryToMainResponseDto inquiryToMain(int size) {
-        List<Object[]> shellsInform = tradeRepository.findShells(size);
+        PageRequest page = PageRequest.of(0, size);
+        List<Object[]> shellsInform = tradeRepository.findShells(page);
         List<Long> shellIds = shellsInform.stream()
                 .map(data -> (Long) data[0])
                 .collect(Collectors.toList());

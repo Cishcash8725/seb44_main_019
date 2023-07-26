@@ -135,13 +135,10 @@ public class MemberService {
         Member findMember = findById(contextId);
 
         if (memberId == contextId && passwordEncoder.matches(deleteRequestDto.getPassword(), findMember.getPassword())) {
-            // 멤버와 연결되어 있는 쉘 아이디를 조회한다.
-            // 연결된 쉘들을 다 삭제한다. -> 이벤트 발행으로 삭제
-            // 멤버를 삭제한다.
             List<Long> shellIds = findMember.getShells().stream()
                     .map(Shell::getId)
                     .collect(Collectors.toList());
-            
+
             eventPublisher.publishEvent(new MemberRemoveEvent(memberId, shellIds));
             memberRepository.delete(findMember);
         } else {

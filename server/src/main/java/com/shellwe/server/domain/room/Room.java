@@ -16,6 +16,7 @@ import java.util.List;
 @Setter
 @Entity
 public class Room extends TimeTracker {
+
     public Room(Long roomId) {
         this.id = roomId;
     }

@@ -3,6 +3,7 @@ package com.shellwe.server.domain.trade.respository;
 import com.shellwe.server.domain.member.entity.Member;
 import com.shellwe.server.domain.shell.entity.Shell;
 import com.shellwe.server.domain.trade.entity.Trade;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,7 +20,10 @@ public interface TradeRepository extends JpaRepository<Trade, Long> {
     List<Long> getSellerShellsBySellerId(@Param("memberId") long memberId);
 
     @Query("SELECT t.sellerShell.id, Count(t) From Trade t GROUP BY t.sellerShell.id ORDER BY COUNT(t) DESC")
-    List<Object[]> findShells(int size);
+    List<Object[]> findShellsNotSize();
+
+    @Query("SELECT t.sellerShell.id, Count(t) FROM Trade t GROUP BY t.sellerShell.id ORDER BY COUNT(t) DESC")
+    List<Object[]> findShells(Pageable pageable);
 
     void deleteAllBySellerId(Long id);
 
